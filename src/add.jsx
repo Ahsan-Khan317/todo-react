@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 
 function Addition(){
 
-const [value,setvalue]=useState([]);
+const [value, setvalue] = useState(() => {
+  const stored = localStorage.getItem("key");
+  return stored ? JSON.parse(stored) : [];
+});
+
 const inputref = useRef();
 
 const handle =()=>{
@@ -20,16 +24,33 @@ inputref.current.value=""
 
 
 useEffect(()=>{
-localStorage.setItem("key",JSON.stringify(value))
+localStorage.setItem("key",JSON.stringify([...value]))
 
 },[value]);
 
-useEffect(()=>{
- const kl = JSON.parse(localStorage.getItem("key") || "[]");
-    setvalue(kl);
+const del = (index)=>(
+    setvalue(value.filter((_,p)=> index != p))
+)
 
-},[])
-console.log({value})
+const lnt = (index)=>{
+const klp = prompt("edit there.....");
+if (klp !== null && klp.trim() !== ""){
+const newval = [...value];
+newval[index] = klp;
+setvalue(newval);
+
+}
+}
+
+
+const toggleDone = (index) => {
+    const updated = [...value];
+    updated[index].done = !updated[index].done;
+    setvalue(updated);
+  };
+
+
+
 return(
     
 
@@ -45,7 +66,46 @@ return(
 </div>
 </div>
 
+
+
+
+
+{
+
+ 
+
+
+
+
+
+
+
+
+
+[...value].map((e,index) =>(
+<div key={index} className="w-[98%]  border-2 border-blue-500 flex flex-col gap-1 justify-around items-center bg-[#B0CE88] rounded-2xl my-1.5 not-sm:w-full p-3">
+    <div><h1 className="text-3xl text-red-700 font-bold">{e}</h1></div> 
+    <div className="flex  items-center justify-around w-full">
+    <button className="cursor-pointer font-bold text-2xl not-sm:text-[18px] active:scale-[0.8]  " onClick={()=>del(index)}>Delete</button>
+    <button className="cursor-pointer font-bold text-2xl not-sm:text-[18px] active:scale-[0.8] " 
+     onClick={()=>{lnt(index)}}> Edit</button>
+    <button className="cursor-pointer font-bold text-2xl active:scale-[0.8] not-sm:text-[18px] " onClick={()=>{toggleDone(index)}}>Line-through</button></div>
 </div>
+
+)
+)
+
+}
+
+
+
+
+
+
+
+
+</div>
+
 
 
 
