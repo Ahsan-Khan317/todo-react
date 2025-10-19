@@ -1,0 +1,15 @@
+body{
+    overflow-x: hidden;
+    background-image: url("https://i.postimg.cc/KzyvGf8z/unnamed-1-gh.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 20px;
+}
+@media (max-width:1000px) {
+    body{
+         background-image: url("https://i.postimg.cc/ZKLTHJRf/unnamed.png");
+    background-size: cover;
+    background-repeat: no-repeat;  
+    }
+    
+}
